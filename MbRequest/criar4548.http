@@ -1,0 +1,32 @@
+POST http://localhost:2525/imposters
+ 
+{
+   "port":4548,
+   "protocol":"http",
+   "stubs":[
+      {
+         "responses":[
+            {
+               "is":{
+                  "statusCode":200,
+                  "body": {"NOME": "João",
+                           "TEL" : 938550700
+                           }      
+               }
+            }
+         ],
+         "predicates":[
+            {
+               "and":[
+                  {
+                     "equals":{
+                        "path":"/dados",
+                        "method":"GET"
+                     }
+                  }
+               ]
+            }
+         ]
+      }
+   ]
+}
