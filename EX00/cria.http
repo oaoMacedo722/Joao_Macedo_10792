@@ -1,0 +1,6 @@
+POST http://localhost:2525/imposters
+
+{
+  "port": 5050,
+  "protocol": "http"
+}

@@ -1,0 +1,43 @@
+POST http://localhost:2525/imposters
+Content-Type: application/json
+
+{
+  "port": 5055,
+  "protocol": "http",
+  "stubs": [
+    {
+      "predicates": [
+        {
+          "equals": {
+            "method": "POST",
+            "path": "/api/login",
+            "body": "{ \"username\": \"user_correto\", \"password\": \"senha_correta\" }"
+          }
+        }
+      ],
+      "responses": [
+        {
+          "is": {
+            "statusCode": 200,
+            "headers": { "Content-Type": "application/json" },
+            "body": "{ \"token\": \"abc123\" }"
+          }
+        }
+      ]
+    },
+    {
+      "predicates": [
+        { "equals": { "method": "POST", "path": "/api/login" } }
+      ],
+      "responses": [
+        {
+          "is": {
+            "statusCode": 401,
+            "headers": { "Content-Type": "application/json" },
+            "body": "{ \"error\": \"invalid_credentials\" }"
+          }
+        }
+      ]
+    }
+  ]
+}

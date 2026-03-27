@@ -1,1 +1,1 @@
-DEFE
+DELETE http://localhost:5054/api/login
