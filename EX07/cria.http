@@ -1,0 +1,64 @@
+POST http://localhost:2525/imposters
+Content-Type: application/json
+
+{
+  "port": 5057,
+  "protocol": "http",
+  "stubs": [
+    {
+      "predicates": [
+        {
+          "equals": {
+            "method": "POST",
+            "path": "/api/users"
+          }
+        },
+        {
+          "contains": {
+            "body": "\"email\":\"exists@example.com\""
+          }
+        }
+      ],
+      "responses": [
+        {
+          "is": {
+            "statusCode": 400,
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": "{ \"error\": \"email_exists\", \"message\": \"O email já está registado\" }"
+          }
+        }
+      ]
+    },
+    {
+      "predicates": [
+        {
+          "equals": {
+            "method": "POST",
+            "path": "/api/users"
+          }
+        },
+        {
+          "equals": {
+            "headers": {
+              "Content-Type": "application/json"
+            }
+          }
+        }
+      ],
+      "responses": [
+        {
+          "is": {
+            "statusCode": 201,
+            "headers": {
+              "Content-Type": "application/json",
+              "Location": "/api/users/123"
+            },
+            "body": "{ \"id\": 123, \"status\": \"created\", \"message\": \"Utilizador criado com sucesso\" }"
+          }
+        }
+      ]
+    }
+  ]
+}
