@@ -1,0 +1,70 @@
+POST http://localhost:2525/imposters
+Content-Type: application/json
+
+{
+  "port": 5058,
+  "protocol": "http",
+  "stubs": [
+    {
+      "predicates": [
+        {
+          "equals": {
+            "method": "POST",
+            "path": "/api/temperature"
+          }
+        },
+        {
+          "negate": {
+            "contains": {
+              "body": "\"value\""
+            }
+          }
+        }
+      ],
+      "responses": [
+        {
+          "is": {
+            "statusCode": 400,
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": "{ \"error\": \"missing_field\", \"message\": \"O campo 'value' é obrigatório\" }"
+          }
+        }
+      ]
+    },
+    {
+      "predicates": [
+        {
+          "equals": {
+            "method": "POST",
+            "path": "/api/temperature"
+          }
+        },
+        {
+          "equals": {
+            "headers": {
+              "Content-Type": "application/json"
+            }
+          }
+        },
+        {
+          "contains": {
+            "body": "\"value\""
+          }
+        }
+      ],
+      "responses": [
+        {
+          "is": {
+            "statusCode": 200,
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": "{ \"status\": \"success\", \"message\": \"Temperatura registrada com sucesso\" }"
+          }
+        }
+      ]
+    }
+  ]
+}

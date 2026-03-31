@@ -1,0 +1,90 @@
+POST http://localhost:2525/imposters
+Content-Type: application/json
+
+{
+  "port": 5059,
+  "protocol": "http",
+  "stubs": [
+    {
+      "predicates": [
+        {
+          "equals": {
+            "method": "POST",
+            "path": "/api/temperature"
+          }
+        },
+        {
+          "equals": {
+            "headers": {
+              "Content-Type": "application/json"
+            }
+          }
+        },
+        {
+          "contains": {
+            "body": "\"value\""
+          }
+        },
+        {
+          "contains": {
+            "body": "\"sensor_id\""
+          }
+        }
+      ],
+      "responses": [
+        {
+          "is": {
+            "statusCode": 201,
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": "{ \"status\": \"created\", \"message\": \"Temperatura registrada com sucesso\" }"
+          }
+        }
+      ]
+    },
+    {
+      "predicates": [
+        {
+          "equals": {
+            "method": "POST",
+            "path": "/api/temperature"
+          }
+        },
+        {
+          "equals": {
+            "headers": {
+              "Content-Type": "application/json"
+            }
+          }
+        },
+        {
+          "contains": {
+            "body": "\"value\""
+          }
+        },
+        {
+          "contains": {
+            "body": "\"sensor_id\""
+          }
+        },
+        {
+          "contains": {
+            "body": "\"value\": \"not_a_number\""
+          }
+        }
+      ],
+      "responses": [
+        {
+          "is": {
+            "statusCode": 400,
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": "{ \"error\": \"invalid_value\", \"message\": \"O valor da temperatura deve ser numérico\" }"
+          }
+        }
+      ]
+    }
+  ]
+}

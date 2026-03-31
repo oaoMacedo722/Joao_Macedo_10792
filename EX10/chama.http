@@ -1,0 +1,7 @@
+POST http://localhost:5060/api/tasks
+Content-Type: application/json
+
+{
+  "title": "Nova Tarefa",
+  "description": "Esta é uma tarefa válida."
+}
